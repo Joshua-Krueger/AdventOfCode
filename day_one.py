@@ -17,11 +17,13 @@ def get2020(data):
     # Loop through each value and save it
     for num in data:
         first_number = num
-        # Loop through again comparing the saved number to every other to see if it adds to 2020
+        # Loop through again to save a second value
         for num in data:
-            if first_number + num == 2020:
-                return print(
-                    f" The first number is {first_number}.\nThe second is {num}.\nThey Multiply to be: {first_number * num}")
+            second_number = num
+            # Loop through a third time comparing the first two to a potential third that will add to 2020
+            for num in data:
+                if first_number + second_number + num == 2020:
+                    return print(f"The first number is {first_number}.\nThe second is {second_number}.\nThe third is {num}.\nThey Multiply to be {first_number * second_number * num}.")
 
 
 get2020(given_data)
