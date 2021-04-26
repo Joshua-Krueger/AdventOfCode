@@ -245,23 +245,31 @@ pass_list = ["4-7 z: zzzfzlzzz", "3-4 l: blllk", "8-11 j: jjjjjjjgjjjj", "6-7 l:
              "11-12 g: ggggggnjghggkggfn", "8-10 z: dfzxgzzbpz", "5-6 w: wwwfkc", "9-10 w: wwwwwwbwwhww",
              "5-6 g: kgggjg", "4-8 s: ssssssscs", "12-20 t: ttttttltttvttttttttt"]
 
-good_pass = 0  # Gives a starting point to keep track of the passwords that work
-# Loop through all of the passwords in the list
+good_pass = 0  # Starting point for password counter
+# Loops through the list of passwords getting the positions of key values
 for password in pass_list:
-    # For each password in the list, finds positions of crucial chars
     colon = (password.find(":"))
     dash = password.find("-")
     space = password.find(" ")
-    letter = password[colon-1]  # Letter the password is focused around
-    key = password[colon+2:]  # Actual password
-    min_letter = int(password[:dash])  # first number that tells min amount of letter required in password
-    max_letter = int(password[dash + 1:space])  # second number that tells max amount of letter required in password
-    letter_count = 0
-    # Loops through the passkey for each password checking the letters to count the amount of that letter
-    for i in key:
-        if letter == i:
-            letter_count += 1
-    # Checks too see if the amount of letters satisfies the requirement
-    if min_letter <= letter_count <= max_letter:
+    letter = password[colon - 1]  # Letter to be checked
+    key = password[colon + 2:]  # Actual password
+    position1 = int(password[:dash])  # First position the letter can be in
+    position2 = int(password[dash + 1:space])  # Second position the letter can be in
+    contains1 = False  # If the first position holds the letter this will be True
+    contains2 = True  # If the second position holds the letter this will be True
+    # If position one holds the letter and position two does not
+    if key[position1 - 1] == letter and key[position2 - 1] != letter:
+        contains1 = True
+        contains2 = False
+    # If position two holds the letter and position one does not
+    elif key[position2 - 1] == letter and letter != key[position1 - 1]:
+        contains2 = True
+        contains1 = False
+    # If both do or don't is the same result
+    else:
+        contains1 = True
+        contains2 = True
+    # If the password is correct according to the requirements
+    if contains1 and contains2 is False or contains1 is False and contains2:
         good_pass += 1
 print(good_pass)
